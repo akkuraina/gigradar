@@ -43,3 +43,10 @@ node_modules/
 .next/
 node_modules/
 node_modules/
+node_modules/
+.next/
+dist/
+build/
+.cache/
+turbo/
+.env
