@@ -1,36 +1,207 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# GigRadar - Local Artist & Indie Gig Finder
 
-## Getting Started
+A platform for discovering local music gigs, supporting independent artists, and connecting music lovers with underground music scenes.
 
-First, run the development server:
+## 🎵 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Map-based gig discovery** - Find local gigs near you
+- **Artist & Venue profiles** - Complete profiles with music previews
+- **Real-time check-ins** - Check in at gigs and share your experience
+- **Vibe-meter ratings** - Rate gigs with a unique vibe-meter system
+- **Music integration** - Spotify/YouTube music embedding
+- **Push notifications** - Get notified about gigs in your area
+- **Social features** - Reviews, ratings, and community engagement
+
+## 🏗️ Project Structure
+
+```
+gigradar/
+├── frontend/          # Next.js React frontend
+│   ├── src/
+│   │   ├── app/       # Next.js app router
+│   │   ├── components/ # React components
+│   │   └── lib/       # Utilities and helpers
+│   ├── public/        # Static assets
+│   └── package.json   # Frontend dependencies
+├── backend/           # Node.js Express API
+│   ├── models/        # MongoDB models
+│   ├── routes/        # API routes
+│   ├── middleware/    # Express middleware
+│   ├── utils/         # Utility functions
+│   └── package.json   # Backend dependencies
+└── README.md
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Quick Start
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Prerequisites
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- Node.js 18+
+- MongoDB (local or Atlas)
+- npm or yarn
 
-## Learn More
+### Backend Setup
 
-To learn more about Next.js, take a look at the following resources:
+1. Navigate to backend directory:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+   ```bash
+   cd backend
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. Install dependencies:
 
-## Deploy on Vercel
+   ```bash
+   npm install
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. Create environment file:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   ```bash
+   cp env.example .env
+   ```
+
+4. Update `.env` with your configuration:
+
+   - MongoDB connection string
+   - JWT secret
+   - Cloudinary credentials (for image uploads)
+
+5. Start the backend server:
+   ```bash
+   npm run dev
+   ```
+
+The backend will run on `http://localhost:5000`
+
+### Frontend Setup
+
+1. Navigate to frontend directory:
+
+   ```bash
+   cd frontend
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+   ```bash
+   npm run dev
+   ```
+
+The frontend will run on `http://localhost:3000`
+
+## 🗄️ Database Models
+
+- **User** - User accounts and profiles
+- **Artist** - Artist profiles with music links
+- **Venue** - Venue information and locations
+- **Gig** - Event details with ticketing
+- **Review** - Gig reviews with vibe-meter ratings
+- **Checkin** - Real-time check-ins at gigs
+
+## 🛠️ Tech Stack
+
+### Frontend
+
+- Next.js 15 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS v3
+- Map integration (TBD)
+
+### Backend
+
+- Node.js
+- Express.js
+- MongoDB with Mongoose
+- JWT Authentication
+- Socket.io (for real-time features)
+- Cloudinary (image uploads)
+
+## 📱 Core Features
+
+### For Music Lovers
+
+- Discover local gigs on an interactive map
+- Preview artist music via Spotify/YouTube
+- Check in at gigs and share experiences
+- Rate gigs with vibe-meter system
+- Get notifications for favorite genres/artists
+
+### For Artists
+
+- Create detailed artist profiles
+- Upload music previews and links
+- Manage gig schedules
+- Track performance metrics
+- Connect with fans
+
+### For Venues
+
+- List venue details and amenities
+- Manage gig bookings
+- Track attendance and reviews
+- Promote upcoming events
+
+## 🔧 Development
+
+### Running Both Services
+
+From the root directory:
+
+```bash
+# Terminal 1 - Backend
+cd backend && npm run dev
+
+# Terminal 2 - Frontend
+cd frontend && npm run dev
+```
+
+### API Endpoints
+
+- `GET /api/health` - Health check
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/login` - User login
+- `GET /api/gigs` - Get gigs (with filters)
+- `POST /api/gigs` - Create new gig
+- `POST /api/checkins` - Check in at gig
+- `POST /api/reviews` - Post gig review
+
+## 🚀 Deployment
+
+### Backend Deployment
+
+- Deploy to Heroku, Railway, or similar
+- Set environment variables
+- Connect to MongoDB Atlas
+
+### Frontend Deployment
+
+- Deploy to Vercel, Netlify, or similar
+- Configure environment variables
+- Update API endpoints
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📄 License
+
+MIT License - see LICENSE file for details
+
+## 🎯 Roadmap
+
+- [ ] Real-time notifications
+- [ ] Advanced search filters
+- [ ] Artist collaboration features
+- [ ] Mobile app development
+- [ ] Payment integration
+- [ ] Social media integration
