@@ -150,189 +150,166 @@ export default function VenuesPage() {
   })
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-purple-500 to-pink-500 dark:from-blue-900 dark:via-purple-900 dark:to-pink-900 animate-gradient"></div>
-      
-      {/* Floating orbs */}
-      <div className="absolute top-20 left-20 w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse"></div>
-      <div className="absolute bottom-20 right-20 w-24 h-24 bg-purple-300/20 rounded-full blur-lg animate-pulse delay-1000"></div>
-      <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-pink-300/20 rounded-full blur-md animate-pulse delay-500"></div>
-      
-      <div className="relative z-10">
-        <div className="w-full py-12">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-extrabold gradient-text mb-4">📍 Discover Venues</h1>
-              <p className="mt-3 max-w-md mx-auto text-lg md:text-2xl text-white/90 mb-8">
-                Explore local venues, see amenities, and find your next gig spot.
-              </p>
-            </div>
-          </div>
+    <div className="min-h-screen bg-transparent premium-space">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-6xl font-extrabold gradient-text mb-3">Discover Venues</h1>
+          <p className="text-lg text-gray-500 dark:text-gray-300">Explore local venues, see amenities, and find your next gig spot.</p>
         </div>
-        
         {/* Filters */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="flex flex-col sm:flex-row gap-4">
-            <div className="flex-1">
-              <input
-                type="text"
-                placeholder="Search venues (e.g., Khar Social)..."
-                className="w-full px-4 py-3 glass rounded-xl focus:ring-2 focus:ring-purple-500 text-white placeholder-white/60"
-                value={search}
-                onChange={e => setSearch(e.target.value)}
-              />
-            </div>
-            <div className="sm:w-48">
-              <select
-                className="w-full px-4 py-3 glass rounded-xl focus:ring-2 focus:ring-purple-500 text-white"
-                value={type}
-                onChange={e => setType(e.target.value)}
-              >
-                {types.map(t => (
-                  <option key={t} value={t} className="bg-gray-800">{t === 'all' ? 'All Types' : t}</option>
-                ))}
-              </select>
-            </div>
-          </div>
+        <div className="flex flex-col sm:flex-row gap-4 mb-10">
+          <input
+            type="text"
+            placeholder="Search venues (e.g., Khar Social)..."
+            className="w-full sm:w-80 px-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+          />
+          <select
+            className="sm:w-48 px-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary text-gray-800 dark:text-white"
+            value={type}
+            onChange={e => setType(e.target.value)}
+          >
+            {types.map(t => (
+              <option key={t} value={t} className="bg-gray-800">{t === 'all' ? 'All Types' : t}</option>
+            ))}
+          </select>
         </div>
-
-        {/* Events Modal */}
-        {showEvents && selectedVenue && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-            <div className="glass rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
-              <div className="p-6">
-                <div className="flex justify-between items-center mb-4">
-                  <div className="flex items-center gap-4">
-                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-2xl font-bold">
-                      📍
-                    </div>
-                    <div>
-                      <h2 className="text-2xl font-bold text-white">{selectedVenue.name}</h2>
-                      <p className="text-white/80">{selectedVenue.location}</p>
-                    </div>
-                  </div>
-                  <button 
-                    onClick={() => setShowEvents(false)}
-                    className="text-white hover:opacity-70 glass rounded-xl p-2"
-                  >
-                    ✕
-                  </button>
-                </div>
-                
-                {selectedVenue.upcomingEvents && selectedVenue.upcomingEvents.length > 0 ? (
-                  <div>
-                    <h3 className="text-lg font-semibold mb-4 text-white">Upcoming Events</h3>
-                    <div className="space-y-4">
-                      {selectedVenue.upcomingEvents.map((event: any, index: number) => (
-                        <div key={index} className="glass rounded-xl p-4">
-                          <h4 className="font-semibold text-white">
-                            {event.performance?.[0]?.artist?.displayName || 'Unknown Artist'}
-                          </h4>
-                          <p className="text-sm text-white/80">
-                            {new Date(event.start?.date || event.start?.datetime).toLocaleDateString()}
-                          </p>
-                          {event.uri && (
-                            <a 
-                              href={event.uri}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-blue-400 text-sm hover:underline"
-                            >
-                              View Event Details
-                            </a>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center py-8">
-                    <p className="text-white/80">No upcoming events found for {selectedVenue.name}.</p>
-                    <p className="text-sm text-white/60 mt-2">Check back later for new events!</p>
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Map Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-          <div className="glass rounded-2xl overflow-hidden shadow-lg hover-lift">
-            <div className="p-6 border-b border-white/20">
-              <h2 className="text-2xl font-bold text-white mb-2">📍 Venue Map</h2>
-              <p className="text-white/80">Explore venues on the map and discover your next gig spot</p>
+        {/* Venue Map Section */}
+        <div className="mb-12">
+          <div className="glass rounded-2xl overflow-hidden">
+            <div className="p-6 border-b border-primary/10">
+              <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">📍 Venue Map</h2>
+              <p className="text-gray-500 dark:text-gray-300">Explore venues on the map and discover your next gig spot</p>
             </div>
             <VenueMap venues={filteredVenues} />
           </div>
         </div>
-
-        {/* Venues Grid */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="flex items-center justify-center space-x-3">
-                <div className="w-6 h-6 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                <div className="text-lg text-white">Loading venues...</div>
+        {loading ? (
+          <div className="text-center py-12">
+            <div className="flex items-center justify-center space-x-3">
+              <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+              <div className="text-lg text-gray-500">Loading venues...</div>
+            </div>
+          </div>
+        ) : error ? (
+          <div className="text-center py-12">
+            <div className="glass rounded-2xl p-8 max-w-md mx-auto">
+              <div className="text-lg text-red-400 mb-4">{error}</div>
+              <button 
+                onClick={() => window.location.reload()}
+                className="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-secondary transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        ) : venues.length === 0 ? (
+          <div className="text-center py-12">
+            <div className="glass rounded-2xl p-8 max-w-md mx-auto">
+              <div className="text-3xl mb-4">📍</div>
+              <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-2">No venues found</h3>
+              <p className="text-gray-500 dark:text-gray-300">Try a different search or check back later.</p>
+            </div>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            {venues.map(venue => (
+              <div
+                key={venue.id}
+                className="glass rounded-2xl p-6 flex flex-col items-center hover-lift cursor-pointer transition-all"
+                onClick={() => handleVenueClick(venue)}
+              >
+                <img
+                  src={venue.image || '/globe.svg'}
+                  alt={venue.name}
+                  className="w-24 h-24 object-cover rounded-full mb-4 border border-primary/10 shadow-none"
+                />
+                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-1 text-center">{venue.name}</h3>
+                <p className="text-sm text-gray-500 dark:text-gray-300 mb-2 text-center">{venue.location}</p>
+                {/* Add more venue details as needed */}
               </div>
-            </div>
-          ) : error ? (
-            <div className="text-center py-12">
-              <div className="glass rounded-2xl p-8 max-w-md mx-auto">
-                <div className="text-lg text-red-400 mb-4">{error}</div>
-                <button 
-                  onClick={loadPopularVenues}
-                  className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-                >
-                  Try Again
-                </button>
-              </div>
-            </div>
-          ) : filteredVenues.length === 0 ? (
-            <div className="text-center py-12">
-              <div className="glass rounded-2xl p-8 max-w-md mx-auto">
-                <div className="text-3xl mb-4">📍</div>
-                <h3 className="text-lg font-medium text-white mb-2">No venues found</h3>
-                <p className="text-white/80">Try adjusting your search or filters</p>
-              </div>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-              {filteredVenues.map(venue => (
-                <div key={venue.id} className="glass rounded-2xl overflow-hidden hover-lift cursor-pointer" onClick={() => handleVenueClick(venue)}>
-                  <div className="relative">
-                    <img
-                      src={venue.image}
-                      alt={venue.name}
-                      className="w-full h-48 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                  </div>
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-500 to-pink-600 text-white">
-                        📍 Venue
-                      </span>
-                      <span className="text-sm text-white/80">📍 {venue.location}</span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-2 text-white">{venue.name}</h3>
-                    <p className="text-sm mb-3 text-white/80">{venue.type}</p>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-white/60">View Events</span>
-                      <div className="w-6 h-6 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
-                        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
+      {/* Modal for venue details/events */}
+      {selectedVenue && (
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="glass rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto p-8 relative">
+            <button
+              onClick={() => setSelectedVenue(null)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-primary text-2xl font-bold"
+              aria-label="Close"
+            >
+              &times;
+            </button>
+            <div className="flex flex-col md:flex-row gap-6 items-center mb-6">
+              <img
+                src={selectedVenue.image || '/globe.svg'}
+                alt={selectedVenue.name}
+                className="w-32 h-32 object-cover rounded-xl border border-primary/10 shadow-none"
+              />
+              <div>
+                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">{selectedVenue.name}</h2>
+                <p className="text-gray-500 dark:text-gray-300 mb-2">{selectedVenue.location}</p>
+                {selectedVenue.capacity && (
+                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-2">Capacity: {selectedVenue.capacity}</p>
+                )}
+                {selectedVenue.amenities && selectedVenue.amenities.length > 0 && (
+                  <div className="flex flex-wrap gap-1">
+                    {selectedVenue.amenities.map(a => (
+                      <span key={a} className="inline-block bg-primary/10 text-primary text-xs px-2 py-1 rounded-full">
+                        {a}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {selectedVenue.uri && (
+                  <a
+                    href={selectedVenue.uri}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-3 text-primary underline hover:opacity-80 text-sm"
+                  >
+                    View on Bandsintown
+                  </a>
+                )}
+              </div>
+            </div>
+            <h3 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-100">Upcoming Events</h3>
+            {selectedVenue.upcomingEvents && selectedVenue.upcomingEvents.length > 0 ? (
+              <div className="space-y-4">
+                {selectedVenue.upcomingEvents.map((event: any, index: number) => (
+                  <div key={index} className="glass rounded-xl p-4">
+                    <h4 className="font-semibold text-gray-800 dark:text-gray-100">
+                      {event.performance?.[0]?.artist?.displayName || 'Unknown Artist'}
+                    </h4>
+                    <p className="text-sm text-gray-500 dark:text-gray-300">
+                      {new Date(event.start?.date || event.start?.datetime).toLocaleDateString()}
+                    </p>
+                    {event.uri && (
+                      <a
+                        href={event.uri}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-primary text-sm underline hover:opacity-80"
+                      >
+                        View Event Details
+                      </a>
+                    )}
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-gray-500 dark:text-gray-300">No upcoming events found for {selectedVenue.name}.</p>
+                <p className="text-sm text-gray-400 dark:text-gray-500 mt-2">Check back later for new events!</p>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   )
 } 

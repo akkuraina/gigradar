@@ -141,7 +141,7 @@ router.get('/spotify/artists', async (req, res) => {
   }
 });
 
-// Get artist details
+// Get artist details (now includes biography/about if available)
 router.get('/spotify/artists/:artistId', async (req, res) => {
   try {
     const { artistId } = req.params;

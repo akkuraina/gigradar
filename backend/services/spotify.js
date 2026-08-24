@@ -1,4 +1,5 @@
 const axios = require('axios');
+const cheerio = require('cheerio');
 
 class SpotifyService {
   constructor() {
@@ -82,10 +83,32 @@ class SpotifyService {
   async getArtistDetails(artistId) {
     try {
       const data = await this.makeRequest(`/artists/${artistId}`);
-      
+      let biography = null;
+      try {
+        // Scrape the Spotify about page for the artist
+        const aboutUrl = `https://open.spotify.com/artist/${artistId}/about`;
+        const html = await axios.get(aboutUrl, {
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            'Accept-Language': 'en-US,en;q=0.9',
+          },
+        }).then(res => res.data);
+        const $ = cheerio.load(html);
+        // Try to find the about/biography text (Spotify's structure may change)
+        // Look for <meta property="og:description" content="..."> as fallback
+        biography = $('meta[property="og:description"]').attr('content') || null;
+        // Try to find a more specific about section if available
+        const aboutSection = $('[data-testid="about-section"]').text();
+        if (aboutSection && aboutSection.length > 50) {
+          biography = aboutSection;
+        }
+      } catch (err) {
+        // If scraping fails, just skip biography
+        biography = null;
+      }
       return {
         success: true,
-        data
+        data: { ...data, biography },
       };
     } catch (error) {
       return {
