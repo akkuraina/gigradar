@@ -264,136 +264,128 @@ export default function ArtistsPage() {
   const genres = ['all', ...Array.from(new Set(artists.flatMap(a => a.genres)))]
 
   const filteredArtists = artists.filter(artist => {
-    const matchesGenre = genre === 'all' || artist.genres.some(g => g.toLowerCase().includes(genre.toLowerCase()))
+const matchesGenre = genre === 'all' || artist.genres.some(g => g.toLowerCase().includes(genre.toLowerCase()))
     const matchesSearch = artist.name.toLowerCase().includes(search.toLowerCase()) ||
       (artist.bio && artist.bio.toLowerCase().includes(search.toLowerCase()))
     return matchesGenre && matchesSearch
   })
-
   return (
-    <div className="min-h-screen bg-transparent premium-space">
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-extrabold gradient-text mb-3">Artists</h1>
-          <p className="text-lg text-gray-500 dark:text-gray-300">Find and explore trending and underground artists</p>
-        </div>
-        <div className="flex flex-col md:flex-row gap-4 mb-10 justify-center items-center">
-          <input
-            type="text"
-            placeholder="Search artists..."
-            className="w-full md:w-80 px-4 py-3 glass rounded-xl focus:ring-2 focus:ring-primary text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500"
-            value={search}
-            onChange={e => setSearch(e.target.value)}
-          />
-          {/* Genre filter can be added here if needed */}
-        </div>
-        {loading ? (
-          <div className="text-center py-12">
-            <div className="flex items-center justify-center space-x-3">
-              <div className="w-6 h-6 border-2 border-primary/20 border-t-primary rounded-full animate-spin"></div>
-              <div className="text-lg text-gray-500">Loading artists...</div>
-            </div>
-          </div>
-        ) : error ? (
-          <div className="text-center py-12">
-            <div className="glass rounded-2xl p-8 max-w-md mx-auto">
-              <div className="text-lg text-red-400 mb-4">{error}</div>
-              <button 
-                onClick={() => window.location.reload()}
-                className="bg-primary text-white px-6 py-3 rounded-xl font-medium hover:bg-secondary transition-colors"
-              >
-                Try Again
-              </button>
-            </div>
-          </div>
-        ) : artists.length === 0 ? (
-          <div className="text-center py-12">
-            <div className="glass rounded-2xl p-8 max-w-md mx-auto">
-              <div className="text-3xl mb-4">🎤</div>
-              <h3 className="text-lg font-medium text-gray-800 dark:text-gray-100 mb-2">No artists found</h3>
-              <p className="text-gray-500 dark:text-gray-300">Try a different search or check back later.</p>
-            </div>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {artists.map(artist => (
-              <div
-                key={artist.id}
-                className="glass rounded-2xl p-6 flex flex-col items-center hover-lift cursor-pointer transition-all"
-                onClick={() => setSelectedArtist(artist)}
-              >
-                <img
-                  src={artist.image || '/globe.svg'}
-                  alt={artist.name}
-                  className="w-24 h-24 object-cover rounded-full mb-4 border border-primary/10 shadow-none"
-                />
-                <h3 className="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-1 text-center">{artist.name}</h3>
-                <p className="text-sm text-gray-500 dark:text-gray-300 mb-2 text-center">{artist.genres?.join(', ')}</p>
-                <p className="text-xs text-gray-400 dark:text-gray-500 text-center">{artist.bio}</p>
-              </div>
-            ))}
-          </div>
-        )}
+    <div className="min-h-screen py-10 px-4 sm:px-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <div className="mb-10 text-center max-w-2xl mx-auto">
+        <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-50 mb-2">
+          Discover <span className="gradient-text">Artists</span>
+        </h1>
+        <p className="text-slate-600 dark:text-slate-400 text-sm sm:text-base">
+          Find trending independent musicians and spotify profiles.
+        </p>
       </div>
+
+      <div className="flex flex-col md:flex-row gap-4 mb-10 max-w-2xl mx-auto">
+        <input
+          type="text"
+          placeholder="Search artist name..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="flex-1 px-4 py-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm shadow-sm"
+        />
+        <button
+          onClick={() => searchArtists(search)}
+          className="px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm transition-all shadow-sm"
+        >
+          Search
+        </button>
+      </div>
+
+      {loading ? (
+        <div className="text-center py-16">
+          <div className="inline-flex items-center space-x-3 px-4 py-2 rounded-xl glass">
+            <div className="w-5 h-5 border-2 border-purple-500/20 border-t-purple-500 rounded-full animate-spin"></div>
+            <span className="text-slate-700 dark:text-slate-300 font-medium text-sm">Searching artists...</span>
+          </div>
+        </div>
+      ) : error ? (
+        <div className="text-center py-12 max-w-md mx-auto">
+          <div className="glass rounded-2xl p-6">
+            <p className="text-red-500 dark:text-red-400 font-medium mb-4 text-sm">{error}</p>
+            <button 
+              onClick={() => window.location.reload()}
+              className="px-5 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm transition-all shadow-sm"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+      ) : artists.length === 0 ? (
+        <div className="text-center py-12 max-w-md mx-auto">
+          <div className="glass rounded-2xl p-8">
+            <span className="text-3xl mb-3 block">🎤</span>
+            <h3 className="text-base font-bold text-slate-900 dark:text-slate-100 mb-1">No artists found</h3>
+            <p className="text-slate-500 dark:text-slate-400 text-xs">Try searching for an artist name.</p>
+          </div>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {artists.map(artist => (
+            <div
+              key={artist.id}
+              className="glass rounded-2xl p-6 flex flex-col items-center hover-lift cursor-pointer transition-all text-center group"
+              onClick={() => setSelectedArtist(artist)}
+            >
+              <img
+                src={artist.image || '/globe.svg'}
+                alt={artist.name}
+                className="w-24 h-24 object-cover rounded-full mb-4 border-2 border-purple-500/20 shadow-md group-hover:scale-105 transition-transform"
+              />
+              <h3 className="text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400 transition-colors mb-1">{artist.name}</h3>
+              <p className="text-xs font-medium text-purple-600 dark:text-purple-400 mb-2">{artist.genres?.slice(0, 2).join(', ')}</p>
+              <p className="text-xs text-slate-500 dark:text-slate-400">{artist.bio}</p>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Modal for artist details */}
       {selectedArtist && (
-        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={() => setSelectedArtist(null)}>
-          <div className="glass rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto p-8 relative" onClick={e => e.stopPropagation()}>
+        <div className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4" onClick={() => setSelectedArtist(null)}>
+          <div className="glass rounded-2xl max-w-lg w-full p-6 relative border border-slate-200 dark:border-slate-800 shadow-2xl" onClick={e => e.stopPropagation()}>
             <button
               onClick={() => setSelectedArtist(null)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-primary text-2xl font-bold"
+              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-2xl font-bold"
               aria-label="Close"
             >
               &times;
             </button>
-            <div className="flex flex-col md:flex-row gap-8 items-center mb-6">
-              <div className="flex flex-col items-center gap-2">
-                {/* Show all images if available */}
-                {Array.isArray((selectedArtist as any).images) && (selectedArtist as any).images.length > 0 ? (
-                  <div className="flex flex-row gap-2 mb-2">
-                    {(selectedArtist as any).images.map((img: any, idx: number) => (
-                      <img
-                        key={idx}
-                        src={img.url}
-                        alt={selectedArtist.name}
-                        className="w-24 h-24 object-cover rounded-full border border-primary/10 shadow-none"
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <img
-                    src={selectedArtist.image || '/globe.svg'}
-                    alt={selectedArtist.name}
-                    className="w-24 h-24 object-cover rounded-full border border-primary/10 shadow-none mb-2"
-                  />
-                )}
+            <div className="flex flex-col items-center text-center">
+              <img
+                src={selectedArtist.image || '/globe.svg'}
+                alt={selectedArtist.name}
+                className="w-28 h-28 object-cover rounded-full border-4 border-purple-500/20 mb-4 shadow-lg"
+              />
+              <h2 className="text-2xl font-bold text-slate-900 dark:text-slate-100 mb-1">{selectedArtist.name}</h2>
+              <p className="text-sm font-medium text-purple-600 dark:text-purple-400 mb-3">{selectedArtist.genres?.join(', ')}</p>
+              
+              {selectedArtist.followers && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">Followers: {selectedArtist.followers.toLocaleString()}</p>
+              )}
+              {selectedArtist.popularity && (
+                <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">Popularity: {selectedArtist.popularity}/100</p>
+              )}
+              
+              {selectedArtist.external_urls?.spotify && (
                 <a
-                  href={selectedArtist.external_urls?.spotify}
+                  href={selectedArtist.external_urls.spotify}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-block mt-2 text-primary underline hover:opacity-80 text-sm"
+                  className="px-5 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-xs transition-all shadow-sm inline-flex items-center space-x-2"
                 >
-                  Open in Spotify
+                  <span>🎧 Open in Spotify</span>
                 </a>
-              </div>
-              <div className="flex-1 min-w-0">
-                <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-2">{selectedArtist.name}</h2>
-                <p className="text-gray-500 dark:text-gray-300 mb-2">{selectedArtist.genres?.join(', ')}</p>
-                {selectedArtist.followers && (
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Followers: {selectedArtist.followers.toLocaleString()}</p>
-                )}
-                {selectedArtist.popularity && (
-                  <p className="text-xs text-gray-400 dark:text-gray-500 mb-1">Popularity: {selectedArtist.popularity}/100</p>
-                )}
-                {/* Spotify About/Bio if available */}
-                {selectedArtist.bio && (
-                  <p className="mt-4 text-gray-600 dark:text-gray-300 text-base whitespace-pre-line">{selectedArtist.bio}</p>
-                )}
-              </div>
+              )}
             </div>
           </div>
         </div>
       )}
     </div>
   )
-} 
+}

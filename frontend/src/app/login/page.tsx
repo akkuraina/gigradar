@@ -48,28 +48,34 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-transparent premium-space">
-      <div className="glass rounded-2xl p-10 w-full max-w-md flex flex-col gap-8 items-center text-center shadow-none">
-        <Link href="/" className="flex justify-center mb-2">
-          <h1 className="text-4xl font-bold gradient-text select-none">🎵 GigRadar</h1>
+    <div className="min-h-[calc(100vh-4rem)] flex items-center justify-center py-12 px-4">
+      <div className="glass rounded-2xl p-8 w-full max-w-md flex flex-col gap-6 items-center shadow-xl border border-slate-200 dark:border-slate-800">
+        <Link href="/" className="flex items-center space-x-2">
+          <span className="text-3xl">🎵</span>
+          <span className="text-2xl font-extrabold text-slate-900 dark:text-slate-100">GigRadar</span>
         </Link>
-        <h2 className="text-2xl font-extrabold mb-2 text-gray-800 dark:text-gray-100">Sign in to your account</h2>
+        
+        <div className="text-center">
+          <h2 className="text-xl font-bold text-slate-900 dark:text-slate-100">Welcome Back</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">Sign in to discover local gigs and manage check-ins</p>
+        </div>
+
         <button
           onClick={handleGoogleSignIn}
           disabled={isLoading}
-          className="w-full flex justify-center items-center gap-2 py-2 px-4 rounded-lg bg-primary text-white font-medium shadow-none hover:bg-secondary transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="w-full flex justify-center items-center gap-3 py-2.5 px-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-100 font-semibold text-sm hover:bg-slate-50 dark:hover:bg-slate-700 transition-all shadow-sm disabled:opacity-50"
         >
           {isLoading ? (
-            <span className="flex items-center">
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <span className="flex items-center text-xs">
+              <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-purple-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              Signing in...
+              Connecting...
             </span>
           ) : (
-            <span className="flex items-center">
-              <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
+            <span className="flex items-center text-xs">
+              <svg className="w-4 h-4 mr-2" viewBox="0 0 24 24">
                 <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
                 <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
                 <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
@@ -79,14 +85,21 @@ export default function LoginPage() {
             </span>
           )}
         </button>
-        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
+
+        <div className="w-full flex items-center gap-3">
+          <div className="h-[1px] bg-slate-200 dark:bg-slate-800 flex-1"></div>
+          <span className="text-[11px] text-slate-400 font-medium">OR</span>
+          <div className="h-[1px] bg-slate-200 dark:bg-slate-800 flex-1"></div>
+        </div>
+
+        <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
           <input
             id="email"
             name="email"
             type="email"
             autoComplete="email"
             required
-            className="rounded-md border border-primary/10 bg-white/80 dark:bg-[#232946]/80 px-4 py-3 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="Email address"
             value={formData.email}
             onChange={handleChange}
@@ -97,7 +110,7 @@ export default function LoginPage() {
             type="password"
             autoComplete="current-password"
             required
-            className="rounded-md border border-primary/10 bg-white/80 dark:bg-[#232946]/80 px-4 py-3 text-gray-800 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary transition"
+            className="rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 py-2.5 text-sm text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 transition"
             placeholder="Password"
             value={formData.password}
             onChange={handleChange}
@@ -105,38 +118,25 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full py-3 rounded-md bg-primary text-white font-semibold shadow-none hover:bg-secondary transition disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-semibold text-sm transition-all shadow-sm disabled:opacity-50"
           >
-            {isLoading ? (
-              <span className="flex items-center justify-center">
-                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-                Signing in...
-              </span>
-            ) : (
-              'Sign in with Email'
-            )}
+            Sign in with Email
           </button>
         </form>
-        <div className="flex flex-col gap-2 w-full mt-2">
-          <div className="flex items-center justify-between">
-            <label className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-300">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 border-primary/10 rounded"
-              />
-              Remember me
-            </label>
-            <a href="#" className="text-sm underline text-gray-400 dark:text-gray-500 hover:opacity-80">Forgot your password?</a>
-          </div>
-          <p className="text-sm text-gray-500 dark:text-gray-300 text-center">
-            Don&apos;t have an account?{' '}
-            <Link href="/register" className="underline hover:opacity-80">Sign up here</Link>
-          </p>
+
+        <div className="flex items-center justify-between w-full text-xs">
+          <label className="flex items-center gap-2 text-slate-600 dark:text-slate-400">
+            <input
+              id="remember-me"
+              name="remember-me"
+              type="checkbox"
+              className="h-3.5 w-3.5 rounded border-slate-300 text-purple-600"
+            />
+            Remember me
+          </label>
+          <Link href="/register" className="text-purple-600 dark:text-purple-400 hover:underline font-medium">
+            Create an account
+          </Link>
         </div>
       </div>
     </div>
