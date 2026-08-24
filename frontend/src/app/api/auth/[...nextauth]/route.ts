@@ -9,7 +9,7 @@ const handler = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({ token, user, account }) {
+    async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token
@@ -21,7 +21,7 @@ const handler = NextAuth({
       session.accessToken = token.accessToken
       return session
     },
-    async signIn({ user, account, profile }) {
+    async signIn({ user }) {
       // You can add custom logic here, like creating a user in your database
       console.log('User signed in:', user.email)
       return true
@@ -29,7 +29,6 @@ const handler = NextAuth({
   },
   pages: {
     signIn: '/login',
-    signUp: '/register',
   },
   session: {
     strategy: 'jwt',

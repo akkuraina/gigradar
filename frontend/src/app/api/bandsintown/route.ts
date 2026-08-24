@@ -13,7 +13,8 @@ export async function GET(req: NextRequest) {
     }
     const data = await res.json()
     return NextResponse.json(data)
-  } catch (e) {
+  } catch (err) {
+    console.error('Bandsintown error:', err)
     return NextResponse.json({ error: 'Server error' }, { status: 500 })
   }
 } 

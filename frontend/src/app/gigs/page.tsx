@@ -30,20 +30,20 @@ export default function GigsPage() {
         
         if (data.success && data.data) {
           // Map to our Event type
-          const mapped: Event[] = data.data.map((ev: any) => ({
-            id: ev.id || ev.uri,
-            artist: ev.performance?.[0]?.artist?.displayName || ev.performance?.[0]?.artist?.name || 'Unknown Artist',
-            venue: ev.venue?.displayName || ev.venue?.name || 'Unknown Venue',
-            datetime: ev.start?.date || ev.start?.datetime || ev.datetime,
-            url: ev.uri || ev.url || '#',
-            image: ev.performance?.[0]?.artist?.image_url || '/globe.svg',
+          const mapped: Event[] = data.data.map((ev: Record<string, any>) => ({
+            id: (ev.id || ev.uri) as string,
+            artist: (ev.performance?.[0]?.artist?.displayName || ev.performance?.[0]?.artist?.name || 'Unknown Artist') as string,
+            venue: (ev.venue?.displayName || ev.venue?.name || 'Unknown Venue') as string,
+            datetime: (ev.start?.date || ev.start?.datetime || ev.datetime) as string,
+            url: (ev.uri || ev.url || '#') as string,
+            image: (ev.performance?.[0]?.artist?.image_url || '/globe.svg') as string,
           }))
           setEvents(mapped)
         } else {
           setError('No events found')
         }
-      } catch (e: any) {
-        setError(e.message || 'Unknown error')
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : 'Unknown error')
       } finally {
         setLoading(false)
       }
