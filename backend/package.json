@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server.js",
     "dev": "nodemon server.js",
+    "build": "node -e \"console.log('Backend built successfully (no compilation needed for Node.js)')\"",
     "test": "jest"
   },
   "keywords": [
